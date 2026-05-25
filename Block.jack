@@ -1,0 +1,15 @@
+class Block {
+    field int xPos, yPos, width, height;
+
+    constructor Block new() {
+        return this;
+    }
+
+    method void draw() {
+        
+    }
+
+    method boolean collides(Player p) {
+
+    }
+}

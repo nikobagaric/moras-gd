@@ -1,0 +1,58 @@
+class Player {
+    field int xPos, yPos;
+    field int yVel, yPrev;
+    field boolean alive;
+
+    constructor Player new(int startX, int startY) {
+        let xPos = startX;
+        let yPos = startY;
+        let yVel = 0;
+        let alive = true;
+
+        return this;
+    }
+
+    method void update() {
+        let yPrev = yPos;
+        let yVel = yVel + 1;
+        let yPos = yPos + yVel;
+
+        if (yPos > 220) {
+            let yPos = 220;
+            let yVel = 0;
+        }
+
+        return;
+    }
+
+    method void jump() {
+        if (yPos = 220) {
+            let yVel = -12;
+            // sound?
+        }
+        return;
+    }
+
+    method void draw() {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(xPos, yPos, xPos+20, yPos+20);
+        return;
+    }
+
+    method void die() {
+        let alive = false;
+        // sound?
+        do Sys.wait(100);
+        return;
+    }
+
+    method boolean isAlive() {
+        return alive;
+    }
+
+    method void landOnBlock(int blockY) {
+        let yPos = blockY - 10;
+        let yVel = 0;
+        return;
+    }
+}

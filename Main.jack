@@ -1,0 +1,24 @@
+class Main {
+    function void main() {
+        var Player p;
+
+        let p = Player.new(50, 220);
+
+        while (true) {
+            do Screen.clearScreen();
+
+            if (Keyboard.keyPressed() = 32) { // space
+                do p.jump();
+            }
+
+            do p.update();
+            do p.draw();
+
+            do Texture.drawSquarePattern(10, 20, 10, 10, 1);
+
+            do Sys.wait(16); // ~60 FPS
+        }
+
+        return;
+    }
+}

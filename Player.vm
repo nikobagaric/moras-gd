@@ -1,0 +1,101 @@
+function Player.new 0
+push constant 5
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push constant 0
+pop this 2
+push constant 0
+not
+pop this 4
+push pointer 0
+return
+function Player.update 0
+push argument 0
+pop pointer 0
+push this 1
+pop this 3
+push this 2
+push constant 1
+add
+pop this 2
+push this 1
+push this 2
+add
+pop this 1
+push this 1
+push constant 220
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 220
+pop this 1
+push constant 0
+pop this 2
+label IF_FALSE0
+push constant 0
+return
+function Player.jump 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 220
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 12
+neg
+pop this 2
+label IF_FALSE0
+push constant 0
+return
+function Player.draw 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push this 0
+push constant 20
+add
+push this 1
+push constant 20
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Player.die 0
+push argument 0
+pop pointer 0
+push constant 0
+pop this 4
+push constant 100
+call Sys.wait 1
+pop temp 0
+push constant 0
+return
+function Player.isAlive 0
+push argument 0
+pop pointer 0
+push this 4
+return
+function Player.landOnBlock 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 10
+sub
+pop this 1
+push constant 0
+pop this 2
+push constant 0
+return

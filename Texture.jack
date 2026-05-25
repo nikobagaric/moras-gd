@@ -1,0 +1,33 @@
+// static class
+class Texture {
+    function void drawSolid(int startPosX, int startPosY, int width, int height) {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(startPosX, startPosY, startPosX + width, startPosY + height);
+        return;
+    }
+
+    function void drawSquarePattern(int startPosX, int startPosY, int width, int height, int scale) {
+        var int row, col;
+        var int x, y;
+
+        let row = 0;
+        while (row < height) {
+            let col = 0;
+            while (col < width) {
+
+                let x = startPosX + (col * scale);
+                let y = startPosY + (row * scale);
+
+                if (((row + col) & 1) = 0) {
+                    do Screen.setColor(true);
+                    do Screen.drawRectangle(x, y, x + scale - 1, y + scale - 1);
+                }
+
+                let col = col + 1;
+            }
+            let row = row + 1;
+        }
+
+        return;
+    }
+}
