@@ -1,15 +1,47 @@
 class Block {
     field int xPos, yPos, width, height;
 
-    constructor Block new() {
+    constructor Block new(int x, int y, int w, int h) {
+        let xPos = x;
+        let yPos = y;
+        let width = w;
+        let height = h;
+
         return this;
     }
 
-    method void draw() {
-        
+    method void draw(int scrollX) {
+        var int sx;
+        let sx = xPos - scrollX;
+
+        if ((sx > (-1)) & ((sx + width) < 512)) {
+            do Texture.drawSolid(sx, yPos, width, height);
+        }
+
+        return;
     }
 
-    method boolean collides(Player p) {
+    method boolean collides(Player p, int scrollX) {
+        var int sx, px, py, pw, ph;
+        let sx = xPos - scrollX;
+        let px = p.getX();
+        let py = p.getY();
+        let pw = p.getWidth();
+        let ph = p.getHeight();
 
+        return ((((sx + width) > px) & (sx < (px + pw))) & (((yPos + height) > py) & (yPos < (py + ph))));
+    }
+
+    method boolean isLandingOn(Player p) {
+        return (~((p.getPrevY() + p.getHeight()) > yPos)) & (p.getYVel() > 0);
+    }
+
+    method int getTop() {
+        return yPos;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
     }
 }

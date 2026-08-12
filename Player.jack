@@ -1,12 +1,20 @@
 class Player {
     field int xPos, yPos;
     field int yVel, yPrev;
+    field int width, height;
+    field int groundY;
+    field boolean grounded;
     field boolean alive;
 
     constructor Player new(int startX, int startY) {
         let xPos = startX;
         let yPos = startY;
         let yVel = 0;
+        let yPrev = startY;
+        let width = 20;
+        let height = 20;
+        let groundY = startY;
+        let grounded = true;
         let alive = true;
 
         return this;
@@ -16,32 +24,33 @@ class Player {
         let yPrev = yPos;
         let yVel = yVel + 1;
         let yPos = yPos + yVel;
+        let grounded = false;
 
-        if (yPos > 220) {
-            let yPos = 220;
+        if (yPos > groundY) {
+            let yPos = groundY;
             let yVel = 0;
+            let grounded = true;
         }
 
         return;
     }
 
     method void jump() {
-        if (yPos = 220) {
+        if (grounded) {
             let yVel = -12;
-            // sound?
+            let grounded = false;
         }
         return;
     }
 
     method void draw() {
         do Screen.setColor(true);
-        do Screen.drawRectangle(xPos, yPos, xPos+20, yPos+20);
+        do Screen.drawRectangle(xPos, yPos, xPos + width, yPos + height);
         return;
     }
 
     method void die() {
         let alive = false;
-        // sound?
         do Sys.wait(100);
         return;
     }
@@ -50,9 +59,39 @@ class Player {
         return alive;
     }
 
-    method void landOnBlock(int blockY) {
-        let yPos = blockY - 10;
+    method void landOnBlock(int blockTop) {
+        let yPos = blockTop - height;
         let yVel = 0;
+        let grounded = true;
+        return;
+    }
+
+    method int getX() {
+        return xPos;
+    }
+
+    method int getY() {
+        return yPos;
+    }
+
+    method int getPrevY() {
+        return yPrev;
+    }
+
+    method int getWidth() {
+        return width;
+    }
+
+    method int getHeight() {
+        return height;
+    }
+
+    method int getYVel() {
+        return yVel;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
         return;
     }
 }

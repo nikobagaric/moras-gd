@@ -1,8 +1,24 @@
-// static class
 class Texture {
     function void drawSolid(int startPosX, int startPosY, int width, int height) {
         do Screen.setColor(true);
         do Screen.drawRectangle(startPosX, startPosY, startPosX + width, startPosY + height);
+        return;
+    }
+
+    function void drawTriangleUp(int startPosX, int startPosY, int width, int height) {
+        var int row, half, centerX, y;
+
+        let centerX = startPosX + (width / 2);
+        let row = 0;
+
+        do Screen.setColor(true);
+        while (row < height) {
+            let half = (width * row) / (2 * height);
+            let y = startPosY + row;
+            do Screen.drawLine(centerX - half, y, centerX + half, y);
+            let row = row + 1;
+        }
+
         return;
     }
 

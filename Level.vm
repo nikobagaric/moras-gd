@@ -1,0 +1,315 @@
+function Level.new 0
+push constant 7
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+pop this 0
+push constant 3
+pop this 1
+push constant 240
+pop this 2
+push constant 5
+pop this 4
+push this 4
+call Array.new 1
+pop this 3
+push constant 0
+push this 3
+add
+push constant 280
+push this 2
+push constant 20
+sub
+push constant 16
+push constant 20
+call Spike.new 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push this 3
+add
+push constant 460
+push this 2
+push constant 20
+sub
+push constant 16
+push constant 20
+call Spike.new 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push this 3
+add
+push constant 640
+push this 2
+push constant 20
+sub
+push constant 16
+push constant 20
+call Spike.new 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push this 3
+add
+push constant 820
+push this 2
+push constant 20
+sub
+push constant 16
+push constant 20
+call Spike.new 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push this 3
+add
+push constant 1000
+push this 2
+push constant 20
+sub
+push constant 16
+push constant 20
+call Spike.new 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+pop this 6
+push constant 0
+pop this 5
+push pointer 0
+return
+function Level.update 0
+push argument 0
+pop pointer 0
+push this 0
+push this 1
+add
+pop this 0
+push constant 0
+return
+function Level.draw 3
+push argument 0
+pop pointer 0
+push constant 0
+push this 2
+push constant 511
+push constant 4
+call Texture.drawSolid 4
+pop temp 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push this 4
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 3
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 1
+push this 0
+call Spike.draw 2
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+pop local 0
+label WHILE_EXP1
+push local 0
+push this 6
+lt
+not
+if-goto WHILE_END1
+push local 0
+push this 5
+add
+pop pointer 1
+push that 0
+pop local 2
+push local 2
+push this 0
+call Block.draw 2
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP1
+label WHILE_END1
+push constant 0
+return
+function Level.checkCollisions 4
+push argument 0
+pop pointer 0
+push constant 0
+pop local 3
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push this 4
+lt
+push local 3
+not
+and
+not
+if-goto WHILE_END0
+push local 0
+push this 3
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 1
+push argument 1
+push this 0
+call Spike.collides 3
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop local 3
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+pop local 0
+label WHILE_EXP1
+push local 0
+push this 6
+lt
+push local 3
+not
+and
+not
+if-goto WHILE_END1
+push local 0
+push this 5
+add
+pop pointer 1
+push that 0
+pop local 2
+push local 2
+push argument 1
+push this 0
+call Block.collides 3
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 2
+push argument 1
+call Block.isLandingOn 2
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push argument 1
+push local 2
+call Block.getTop 1
+call Player.landOnBlock 2
+pop temp 0
+goto IF_END2
+label IF_FALSE2
+push constant 0
+not
+pop local 3
+label IF_END2
+label IF_FALSE1
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP1
+label WHILE_END1
+push local 3
+return
+function Level.dispose 3
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push this 4
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 3
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 1
+call Spike.dispose 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push this 3
+call Array.dispose 1
+pop temp 0
+push constant 0
+pop local 0
+label WHILE_EXP1
+push local 0
+push this 6
+lt
+not
+if-goto WHILE_END1
+push local 0
+push this 5
+add
+pop pointer 1
+push that 0
+pop local 2
+push local 2
+call Block.dispose 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP1
+label WHILE_END1
+push this 6
+push constant 0
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 5
+call Array.dispose 1
+pop temp 0
+label IF_FALSE0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

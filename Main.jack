@@ -1,22 +1,36 @@
 class Main {
     function void main() {
         var Player p;
+        var Level lvl;
 
         let p = Player.new(50, 220);
+        let lvl = Level.new();
 
         while (true) {
             do Screen.clearScreen();
 
-            if (Keyboard.keyPressed() = 32) { // space
+            if (Keyboard.keyPressed() = 32) {
                 do p.jump();
             }
 
             do p.update();
+            do lvl.update();
+
+            if (lvl.checkCollisions(p)) {
+                do p.die();
+            }
+
+            do lvl.draw();
             do p.draw();
 
-            do Texture.drawSquarePattern(10, 20, 10, 10, 1);
+            if (~(p.isAlive())) {
+                do p.dispose();
+                do lvl.dispose();
+                let p = Player.new(50, 220);
+                let lvl = Level.new();
+            }
 
-            do Sys.wait(16); // ~60 FPS
+            do Sys.wait(16);
         }
 
         return;

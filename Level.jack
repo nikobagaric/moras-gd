@@ -1,0 +1,115 @@
+class Level {
+    field int scrollX, scrollSpeed, floorY;
+    field Array spikes;
+    field int spikeCount;
+    field Array blocks;
+    field int blockCount;
+
+    constructor Level new() {
+        let scrollX = 0;
+        let scrollSpeed = 3;
+        let floorY = 240;
+
+        let spikeCount = 5;
+        let spikes = Array.new(spikeCount);
+        let spikes[0] = Spike.new(280, floorY - 20, 16, 20);
+        let spikes[1] = Spike.new(460, floorY - 20, 16, 20);
+        let spikes[2] = Spike.new(640, floorY - 20, 16, 20);
+        let spikes[3] = Spike.new(820, floorY - 20, 16, 20);
+        let spikes[4] = Spike.new(1000, floorY - 20, 16, 20);
+
+        let blockCount = 0;
+        let blocks = null;
+
+        return this;
+    }
+
+    method void update() {
+        let scrollX = scrollX + scrollSpeed;
+        return;
+    }
+
+    method void draw() {
+        var int i;
+        var Spike s;
+        var Block b;
+
+        do Texture.drawSolid(0, floorY, 511, 4);
+
+        let i = 0;
+        while (i < spikeCount) {
+            let s = spikes[i];
+            do s.draw(scrollX);
+            let i = i + 1;
+        }
+
+        let i = 0;
+        while (i < blockCount) {
+            let b = blocks[i];
+            do b.draw(scrollX);
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    method boolean checkCollisions(Player p) {
+        var int i;
+        var Spike s;
+        var Block b;
+        var boolean dead;
+
+        let dead = false;
+
+        let i = 0;
+        while ((i < spikeCount) & (~dead)) {
+            let s = spikes[i];
+            if (s.collides(p, scrollX)) {
+                let dead = true;
+            }
+            let i = i + 1;
+        }
+
+        let i = 0;
+        while ((i < blockCount) & (~dead)) {
+            let b = blocks[i];
+            if (b.collides(p, scrollX)) {
+                if (b.isLandingOn(p)) {
+                    do p.landOnBlock(b.getTop());
+                } else {
+                    let dead = true;
+                }
+            }
+            let i = i + 1;
+        }
+
+        return dead;
+    }
+
+    method void dispose() {
+        var int i;
+        var Spike s;
+        var Block b;
+
+        let i = 0;
+        while (i < spikeCount) {
+            let s = spikes[i];
+            do s.dispose();
+            let i = i + 1;
+        }
+        do spikes.dispose();
+
+        let i = 0;
+        while (i < blockCount) {
+            let b = blocks[i];
+            do b.dispose();
+            let i = i + 1;
+        }
+        if (blockCount > 0) {
+            do blocks.dispose();
+        }
+
+        do Memory.deAlloc(this);
+        return;
+    }
+}

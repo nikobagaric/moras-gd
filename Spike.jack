@@ -1,15 +1,39 @@
 class Spike {
     field int xPos, yPos, width, height;
 
-    constructor Spike new() {
+    constructor Spike new(int x, int y, int w, int h) {
+        let xPos = x;
+        let yPos = y;
+        let width = w;
+        let height = h;
+
         return this;
     }
 
-    method void draw() {
+    method void draw(int scrollX) {
+        var int sx;
+        let sx = xPos - scrollX;
 
+        if ((sx > (-1)) & ((sx + width) < 512)) {
+            do Texture.drawTriangleUp(sx, yPos, width, height);
+        }
+
+        return;
     }
 
-    method boolean collides(Player p) {
-        
+    method boolean collides(Player p, int scrollX) {
+        var int sx, px, py, pw, ph;
+        let sx = xPos - scrollX;
+        let px = p.getX();
+        let py = p.getY();
+        let pw = p.getWidth();
+        let ph = p.getHeight();
+
+        return ((((sx + width) > px) & (sx < (px + pw))) & (((yPos + height) > py) & (yPos < (py + ph))));
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
     }
 }

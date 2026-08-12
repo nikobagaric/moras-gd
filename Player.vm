@@ -1,5 +1,5 @@
 function Player.new 0
-push constant 5
+push constant 9
 call Memory.alloc 1
 pop pointer 0
 push argument 0
@@ -8,9 +8,20 @@ push argument 1
 pop this 1
 push constant 0
 pop this 2
+push argument 1
+pop this 3
+push constant 20
+pop this 4
+push constant 20
+pop this 5
+push argument 1
+pop this 6
 push constant 0
 not
-pop this 4
+pop this 7
+push constant 0
+not
+pop this 8
 push pointer 0
 return
 function Player.update 0
@@ -26,31 +37,36 @@ push this 1
 push this 2
 add
 pop this 1
+push constant 0
+pop this 7
 push this 1
-push constant 220
+push this 6
 gt
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push constant 220
+push this 6
 pop this 1
 push constant 0
 pop this 2
+push constant 0
+not
+pop this 7
 label IF_FALSE0
 push constant 0
 return
 function Player.jump 0
 push argument 0
 pop pointer 0
-push this 1
-push constant 220
-eq
+push this 7
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 12
 neg
 pop this 2
+push constant 0
+pop this 7
 label IF_FALSE0
 push constant 0
 return
@@ -64,10 +80,10 @@ pop temp 0
 push this 0
 push this 1
 push this 0
-push constant 20
+push this 4
 add
 push this 1
-push constant 20
+push this 5
 add
 call Screen.drawRectangle 4
 pop temp 0
@@ -77,7 +93,7 @@ function Player.die 0
 push argument 0
 pop pointer 0
 push constant 0
-pop this 4
+pop this 8
 push constant 100
 call Sys.wait 1
 pop temp 0
@@ -86,16 +102,57 @@ return
 function Player.isAlive 0
 push argument 0
 pop pointer 0
-push this 4
+push this 8
 return
 function Player.landOnBlock 0
 push argument 0
 pop pointer 0
 push argument 1
-push constant 10
+push this 5
 sub
 pop this 1
 push constant 0
 pop this 2
+push constant 0
+not
+pop this 7
+push constant 0
+return
+function Player.getX 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Player.getY 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Player.getPrevY 0
+push argument 0
+pop pointer 0
+push this 3
+return
+function Player.getWidth 0
+push argument 0
+pop pointer 0
+push this 4
+return
+function Player.getHeight 0
+push argument 0
+pop pointer 0
+push this 5
+return
+function Player.getYVel 0
+push argument 0
+pop pointer 0
+push this 2
+return
+function Player.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
 push constant 0
 return

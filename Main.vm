@@ -1,8 +1,10 @@
-function Main.main 1
+function Main.main 2
 push constant 50
 push constant 220
 call Player.new 2
 pop local 0
+call Level.new 0
+pop local 1
 label WHILE_EXP0
 push constant 0
 not
@@ -23,16 +25,44 @@ label IF_FALSE0
 push local 0
 call Player.update 1
 pop temp 0
+push local 1
+call Level.update 1
+pop temp 0
+push local 1
+push local 0
+call Level.checkCollisions 2
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+call Player.die 1
+pop temp 0
+label IF_FALSE1
+push local 1
+call Level.draw 1
+pop temp 0
 push local 0
 call Player.draw 1
 pop temp 0
-push constant 10
-push constant 20
-push constant 10
-push constant 10
-push constant 1
-call Texture.drawSquarePattern 5
+push local 0
+call Player.isAlive 1
+not
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 0
+call Player.dispose 1
 pop temp 0
+push local 1
+call Level.dispose 1
+pop temp 0
+push constant 50
+push constant 220
+call Player.new 2
+pop local 0
+call Level.new 0
+pop local 1
+label IF_FALSE2
 push constant 16
 call Sys.wait 1
 pop temp 0

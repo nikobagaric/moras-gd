@@ -1,0 +1,116 @@
+function Block.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push argument 2
+pop this 2
+push argument 3
+pop this 3
+push pointer 0
+return
+function Block.draw 1
+push argument 0
+pop pointer 0
+push this 0
+push argument 1
+sub
+pop local 0
+push local 0
+push constant 1
+neg
+gt
+push local 0
+push this 2
+add
+push constant 512
+lt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push this 1
+push this 2
+push this 3
+call Texture.drawSolid 4
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Block.collides 5
+push argument 0
+pop pointer 0
+push this 0
+push argument 2
+sub
+pop local 0
+push argument 1
+call Player.getX 1
+pop local 1
+push argument 1
+call Player.getY 1
+pop local 2
+push argument 1
+call Player.getWidth 1
+pop local 3
+push argument 1
+call Player.getHeight 1
+pop local 4
+push local 0
+push this 2
+add
+push local 1
+gt
+push local 0
+push local 1
+push local 3
+add
+lt
+and
+push this 1
+push this 3
+add
+push local 2
+gt
+push this 1
+push local 2
+push local 4
+add
+lt
+and
+and
+return
+function Block.isLandingOn 0
+push argument 0
+pop pointer 0
+push argument 1
+call Player.getPrevY 1
+push argument 1
+call Player.getHeight 1
+add
+push this 1
+gt
+not
+push argument 1
+call Player.getYVel 1
+push constant 0
+gt
+and
+return
+function Block.getTop 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Block.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
