@@ -53,6 +53,17 @@ push constant 0
 not
 pop this 7
 label IF_FALSE0
+push this 1
+push constant 0
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+pop this 1
+push constant 0
+pop this 2
+label IF_FALSE1
 push constant 0
 return
 function Player.jump 0
@@ -70,23 +81,38 @@ pop this 7
 label IF_FALSE0
 push constant 0
 return
+function Player.boostJump 0
+push argument 0
+pop pointer 0
+push constant 18
+neg
+pop this 2
+push constant 0
+pop this 7
+push constant 0
+return
 function Player.draw 0
 push argument 0
 pop pointer 0
-push constant 0
-not
-call Screen.setColor 1
-pop temp 0
+push this 8
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
 push this 0
 push this 1
-push this 0
 push this 4
-add
-push this 1
 push this 5
-add
-call Screen.drawRectangle 4
+call Texture.drawPlayerTexture 4
 pop temp 0
+goto IF_END0
+label IF_FALSE0
+push this 0
+push this 1
+push this 4
+push this 5
+call Texture.drawPlayerDeadTexture 4
+pop temp 0
+label IF_END0
 push constant 0
 return
 function Player.die 0
@@ -94,9 +120,6 @@ push argument 0
 pop pointer 0
 push constant 0
 pop this 8
-push constant 100
-call Sys.wait 1
-pop temp 0
 push constant 0
 return
 function Player.isAlive 0

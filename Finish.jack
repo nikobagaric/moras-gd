@@ -1,7 +1,7 @@
-class Block {
+class Finish {
     field int xPos, yPos, width, height;
 
-    constructor Block new(int x, int y, int w, int h) {
+    constructor Finish new(int x, int y, int w, int h) {
         let xPos = x;
         let yPos = y;
         let width = w;
@@ -15,7 +15,7 @@ class Block {
         let sx = xPos - scrollX;
 
         if ((sx > (-1)) & ((sx + width) < 512)) {
-            do Texture.drawBrick(sx, yPos, width, height);
+            do Texture.drawFinish(sx, yPos, width, height);
         }
 
         return;
@@ -30,14 +30,6 @@ class Block {
         let ph = p.getHeight();
 
         return ((((sx + width) > px) & (sx < (px + pw))) & (((yPos + height) > py) & (yPos < (py + ph))));
-    }
-
-    method boolean isLandingOn(Player p) {
-        return (~((p.getPrevY() + p.getHeight()) > yPos)) & (p.getYVel() > 0);
-    }
-
-    method int getTop() {
-        return yPos;
     }
 
     method void dispose() {

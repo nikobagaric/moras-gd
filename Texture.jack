@@ -6,39 +6,138 @@ class Texture {
     }
 
     function void drawTriangleUp(int startPosX, int startPosY, int width, int height) {
-        var int row, half, centerX, y;
+        var int row, half, centerX, y, stripe;
 
         let centerX = startPosX + (width / 2);
         let row = 0;
 
-        do Screen.setColor(true);
         while (row < height) {
             let half = (width * row) / (2 * height);
             let y = startPosY + row;
+            let stripe = row / 3;
+
+            if ((stripe & 1) = 0) {
+                do Screen.setColor(true);
+            } else {
+                do Screen.setColor(false);
+            }
             do Screen.drawLine(centerX - half, y, centerX + half, y);
+
+            let row = row + 1;
+        }
+
+        do Screen.setColor(true);
+        do Screen.drawLine(centerX, startPosY, startPosX, startPosY + height);
+        do Screen.drawLine(centerX, startPosY, startPosX + width, startPosY + height);
+        do Screen.drawLine(startPosX, startPosY + height, startPosX + width, startPosY + height);
+
+        return;
+    }
+
+    function void drawBrick(int startPosX, int startPosY, int width, int height) {
+        var int cell, row, col, cx, cy, rows, cols;
+
+        let cell = 5;
+        do Screen.setColor(true);
+        do Screen.drawRectangle(startPosX, startPosY, startPosX + width, startPosY + height);
+
+        let rows = height / cell;
+        let cols = width / cell;
+
+        let row = 0;
+        while (row < rows) {
+            let col = 0;
+            while (col < cols) {
+                if (((row + col) & 1) = 0) {
+                    let cx = startPosX + (col * cell);
+                    let cy = startPosY + (row * cell);
+                    do Screen.setColor(false);
+                    do Screen.drawRectangle(cx + 1, cy + 1, cx + cell - 1, cy + cell - 1);
+                }
+                let col = col + 1;
+            }
             let row = row + 1;
         }
 
         return;
     }
 
-    function void drawSquarePattern(int startPosX, int startPosY, int width, int height, int scale) {
-        var int row, col;
-        var int x, y;
+    function void drawPlayerTexture(int startPosX, int startPosY, int width, int height) {
+        var int cx, cy;
+
+        do Screen.setColor(true);
+        do Screen.drawRectangle(startPosX, startPosY, startPosX + width, startPosY + height);
+
+        do Screen.setColor(false);
+        do Screen.drawRectangle(startPosX + 3, startPosY + 3, startPosX + width - 3, startPosY + height - 3);
+
+        do Screen.setColor(true);
+        let cx = startPosX + (width / 2);
+        let cy = startPosY + (height / 2);
+        do Screen.drawRectangle(cx - 2, cy - 2, cx + 2, cy + 2);
+
+        return;
+    }
+
+    function void drawPlayerDeadTexture(int startPosX, int startPosY, int width, int height) {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(startPosX, startPosY, startPosX + width, startPosY + height);
+
+        do Screen.setColor(false);
+        do Screen.drawRectangle(startPosX + 2, startPosY + 2, startPosX + width - 2, startPosY + height - 2);
+
+        do Screen.setColor(true);
+        do Screen.drawLine(startPosX + 2, startPosY + 2, startPosX + width - 2, startPosY + height - 2);
+        do Screen.drawLine(startPosX + width - 2, startPosY + 2, startPosX + 2, startPosY + height - 2);
+
+        return;
+    }
+
+    function void drawJumpPad(int startPosX, int startPosY, int width, int height) {
+        var int cx;
+
+        let cx = startPosX + (width / 2);
+
+        do Screen.setColor(true);
+        do Screen.drawRectangle(startPosX, startPosY, startPosX + width, startPosY + height);
+
+        do Screen.setColor(false);
+        do Screen.drawRectangle(startPosX + 2, startPosY + 2, startPosX + width - 2, startPosY + height - 2);
+
+        do Screen.setColor(true);
+        do Screen.drawLine(startPosX + 2, startPosY + height - 2, cx, startPosY + 2);
+        do Screen.drawLine(cx, startPosY + 2, startPosX + width - 2, startPosY + height - 2);
+
+        return;
+    }
+
+    function void drawFinish(int startPosX, int startPosY, int width, int height) {
+        var int poleW, flagW, flagH, cell, row, col, cx, cy, rows, cols;
+
+        let poleW = 4;
+        do Screen.setColor(true);
+        do Screen.drawRectangle(startPosX, startPosY, startPosX + poleW, startPosY + height);
+
+        let flagW = width - poleW;
+        let flagH = height / 3;
+        let cell = 4;
+
+        do Screen.setColor(true);
+        do Screen.drawRectangle(startPosX + poleW, startPosY, startPosX + width, startPosY + flagH);
+
+        let rows = flagH / cell;
+        let cols = flagW / cell;
 
         let row = 0;
-        while (row < height) {
+        while (row < rows) {
             let col = 0;
-            while (col < width) {
-
-                let x = startPosX + (col * scale);
-                let y = startPosY + (row * scale);
-
+            while (col < cols) {
                 if (((row + col) & 1) = 0) {
-                    do Screen.setColor(true);
-                    do Screen.drawRectangle(x, y, x + scale - 1, y + scale - 1);
+                    let cx = startPosX + poleW + (col * cell);
+                    let cy = startPosY + (row * cell);
+                    do Screen.setColor(false);
+                    do Screen.drawRectangle(cx, cy, cx + cell, cy + cell);
                 }
-
                 let col = col + 1;
             }
             let row = row + 1;

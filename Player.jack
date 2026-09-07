@@ -32,6 +32,11 @@ class Player {
             let grounded = true;
         }
 
+        if (yPos < 0) {
+            let yPos = 0;
+            let yVel = 0;
+        }
+
         return;
     }
 
@@ -43,15 +48,23 @@ class Player {
         return;
     }
 
+    method void boostJump() {
+        let yVel = -18;
+        let grounded = false;
+        return;
+    }
+
     method void draw() {
-        do Screen.setColor(true);
-        do Screen.drawRectangle(xPos, yPos, xPos + width, yPos + height);
+        if (alive) {
+            do Texture.drawPlayerTexture(xPos, yPos, width, height);
+        } else {
+            do Texture.drawPlayerDeadTexture(xPos, yPos, width, height);
+        }
         return;
     }
 
     method void die() {
         let alive = false;
-        do Sys.wait(100);
         return;
     }
 

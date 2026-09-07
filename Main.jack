@@ -2,35 +2,68 @@ class Main {
     function void main() {
         var Player p;
         var Level lvl;
+        var boolean won, restartArmed;
 
         let p = Player.new(50, 220);
         let lvl = Level.new();
+        let won = false;
+        let restartArmed = false;
 
         while (true) {
             do Screen.clearScreen();
 
-            if (Keyboard.keyPressed() = 32) {
-                do p.jump();
-            }
+            if (~won) {
+                if (Keyboard.keyPressed() = 32) {
+                    do p.jump();
+                }
 
-            do p.update();
-            do lvl.update();
+                do p.update();
+                do lvl.update();
 
-            if (lvl.checkCollisions(p)) {
-                do p.die();
+                if (lvl.checkCollisions(p)) {
+                    do p.die();
+                }
+
+                if (lvl.checkWin(p)) {
+                    let won = true;
+                    let restartArmed = false;
+                }
             }
 
             do lvl.draw();
             do p.draw();
 
-            if (~(p.isAlive())) {
-                do p.dispose();
-                do lvl.dispose();
-                let p = Player.new(50, 220);
-                let lvl = Level.new();
-            }
+            if (won) {
+                do Output.moveCursor(9, 28);
+                do Output.printString("YOU WIN");
+                do Output.moveCursor(12, 22);
+                do Output.printString("SPACE TO PLAY AGAIN");
 
-            do Sys.wait(16);
+                if (Keyboard.keyPressed() = 0) {
+                    let restartArmed = true;
+                }
+
+                if (restartArmed & (Keyboard.keyPressed() = 32)) {
+                    do p.dispose();
+                    do lvl.dispose();
+                    let p = Player.new(50, 220);
+                    let lvl = Level.new();
+                    let won = false;
+                    let restartArmed = false;
+                }
+
+                do Sys.wait(16);
+            } else {
+                if (~(p.isAlive())) {
+                    do Sys.wait(3000);
+                    do p.dispose();
+                    do lvl.dispose();
+                    let p = Player.new(50, 220);
+                    let lvl = Level.new();
+                } else {
+                    do Sys.wait(16);
+                }
+            }
         }
 
         return;

@@ -1,11 +1,13 @@
-class Block {
+class JumpPad {
     field int xPos, yPos, width, height;
+    field boolean armed;
 
-    constructor Block new(int x, int y, int w, int h) {
+    constructor JumpPad new(int x, int y, int w, int h) {
         let xPos = x;
         let yPos = y;
         let width = w;
         let height = h;
+        let armed = true;
 
         return this;
     }
@@ -15,7 +17,7 @@ class Block {
         let sx = xPos - scrollX;
 
         if ((sx > (-1)) & ((sx + width) < 512)) {
-            do Texture.drawBrick(sx, yPos, width, height);
+            do Texture.drawJumpPad(sx, yPos, width, height);
         }
 
         return;
@@ -32,12 +34,20 @@ class Block {
         return ((((sx + width) > px) & (sx < (px + pw))) & (((yPos + height) > py) & (yPos < (py + ph))));
     }
 
-    method boolean isLandingOn(Player p) {
-        return (~((p.getPrevY() + p.getHeight()) > yPos)) & (p.getYVel() > 0);
-    }
+    method boolean trigger(Player p, int scrollX) {
+        var boolean hit;
+        let hit = false;
 
-    method int getTop() {
-        return yPos;
+        if (collides(p, scrollX)) {
+            if (armed) {
+                let armed = false;
+                let hit = true;
+            }
+        } else {
+            let armed = true;
+        }
+
+        return hit;
     }
 
     method void dispose() {

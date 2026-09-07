@@ -4,22 +4,46 @@ class Level {
     field int spikeCount;
     field Array blocks;
     field int blockCount;
+    field Array jumpPads;
+    field int jumpPadCount;
+    field Finish finish;
 
     constructor Level new() {
         let scrollX = 0;
-        let scrollSpeed = 3;
+        let scrollSpeed = 4;
         let floorY = 240;
 
-        let spikeCount = 5;
+        let spikeCount = 12;
         let spikes = Array.new(spikeCount);
         let spikes[0] = Spike.new(280, floorY - 20, 16, 20);
-        let spikes[1] = Spike.new(460, floorY - 20, 16, 20);
-        let spikes[2] = Spike.new(640, floorY - 20, 16, 20);
-        let spikes[3] = Spike.new(820, floorY - 20, 16, 20);
-        let spikes[4] = Spike.new(1000, floorY - 20, 16, 20);
 
-        let blockCount = 0;
-        let blocks = null;
+        let spikes[1] = Spike.new(460, floorY - 20, 16, 20);
+        let spikes[2] = Spike.new(476, floorY - 20, 16, 20);
+        let spikes[3] = Spike.new(492, floorY - 20, 16, 20);
+
+        let spikes[4] = Spike.new(760, floorY - 20, 16, 20);
+
+        let spikes[5] = Spike.new(900, floorY - 20, 16, 20);
+        let spikes[6] = Spike.new(916, floorY - 20, 16, 20);
+        let spikes[7] = Spike.new(932, floorY - 20, 16, 20);
+
+        let spikes[8] = Spike.new(1300, floorY - 20, 16, 20);
+        let spikes[9] = Spike.new(1316, floorY - 20, 16, 20);
+        let spikes[10] = Spike.new(1332, floorY - 20, 16, 20);
+
+        let spikes[11] = Spike.new(1450, floorY - 20, 16, 20);
+
+        let blockCount = 2;
+        let blocks = Array.new(blockCount);
+        let blocks[0] = Block.new(600, floorY - 60, 60, 16);
+        let blocks[1] = Block.new(1050, floorY - 60, 60, 16);
+
+        let jumpPadCount = 2;
+        let jumpPads = Array.new(jumpPadCount);
+        let jumpPads[0] = JumpPad.new(400, floorY - 10, 26, 10);
+        let jumpPads[1] = JumpPad.new(1220, floorY - 10, 26, 10);
+
+        let finish = Finish.new(1600, 0, 30, floorY);
 
         return this;
     }
@@ -33,6 +57,7 @@ class Level {
         var int i;
         var Spike s;
         var Block b;
+        var JumpPad jp;
 
         do Texture.drawSolid(0, floorY, 511, 4);
 
@@ -50,13 +75,27 @@ class Level {
             let i = i + 1;
         }
 
+        let i = 0;
+        while (i < jumpPadCount) {
+            let jp = jumpPads[i];
+            do jp.draw(scrollX);
+            let i = i + 1;
+        }
+
+        do finish.draw(scrollX);
+
         return;
+    }
+
+    method boolean checkWin(Player p) {
+        return finish.collides(p, scrollX);
     }
 
     method boolean checkCollisions(Player p) {
         var int i;
         var Spike s;
         var Block b;
+        var JumpPad jp;
         var boolean dead;
 
         let dead = false;
@@ -83,6 +122,15 @@ class Level {
             let i = i + 1;
         }
 
+        let i = 0;
+        while (i < jumpPadCount) {
+            let jp = jumpPads[i];
+            if (jp.trigger(p, scrollX)) {
+                do p.boostJump();
+            }
+            let i = i + 1;
+        }
+
         return dead;
     }
 
@@ -90,6 +138,7 @@ class Level {
         var int i;
         var Spike s;
         var Block b;
+        var JumpPad jp;
 
         let i = 0;
         while (i < spikeCount) {
@@ -108,6 +157,18 @@ class Level {
         if (blockCount > 0) {
             do blocks.dispose();
         }
+
+        let i = 0;
+        while (i < jumpPadCount) {
+            let jp = jumpPads[i];
+            do jp.dispose();
+            let i = i + 1;
+        }
+        if (jumpPadCount > 0) {
+            do jumpPads.dispose();
+        }
+
+        do finish.dispose();
 
         do Memory.deAlloc(this);
         return;

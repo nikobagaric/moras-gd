@@ -15,7 +15,7 @@ call Screen.drawRectangle 4
 pop temp 0
 push constant 0
 return
-function Texture.drawTriangleUp 4
+function Texture.drawTriangleUp 5
 push argument 0
 push argument 2
 push constant 2
@@ -24,10 +24,6 @@ add
 pop local 2
 push constant 0
 pop local 0
-push constant 0
-not
-call Screen.setColor 1
-pop temp 0
 label WHILE_EXP0
 push local 0
 push argument 3
@@ -46,6 +42,28 @@ push argument 1
 push local 0
 add
 pop local 3
+push local 0
+push constant 3
+call Math.divide 2
+pop local 4
+push local 4
+push constant 1
+and
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+label IF_END0
 push local 2
 push local 1
 sub
@@ -63,38 +81,84 @@ pop local 0
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0
-return
-function Texture.drawSquarePattern 4
-push constant 0
-pop local 0
-label WHILE_EXP0
-push local 0
+not
+call Screen.setColor 1
+pop temp 0
+push local 2
+push argument 1
+push argument 0
+push argument 1
 push argument 3
+add
+call Screen.drawLine 4
+pop temp 0
+push local 2
+push argument 1
+push argument 0
+push argument 2
+add
+push argument 1
+push argument 3
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push argument 1
+push argument 3
+add
+push argument 0
+push argument 2
+add
+push argument 1
+push argument 3
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Texture.drawBrick 7
+push constant 5
+pop local 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push argument 2
+add
+push argument 1
+push argument 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 3
+push local 0
+call Math.divide 2
+pop local 5
+push argument 2
+push local 0
+call Math.divide 2
+pop local 6
+push constant 0
+pop local 1
+label WHILE_EXP0
+push local 1
+push local 5
 lt
 not
 if-goto WHILE_END0
 push constant 0
-pop local 1
+pop local 2
 label WHILE_EXP1
-push local 1
-push argument 2
+push local 2
+push local 6
 lt
 not
 if-goto WHILE_END1
-push argument 0
 push local 1
-push argument 4
-call Math.multiply 2
-add
-pop local 2
-push argument 1
-push local 0
-push argument 4
-call Math.multiply 2
-add
-pop local 3
-push local 0
-push local 1
+push local 2
 add
 push constant 1
 and
@@ -103,35 +167,393 @@ eq
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
+push argument 0
+push local 2
+push local 0
+call Math.multiply 2
+add
+pop local 3
+push argument 1
+push local 1
+push local 0
+call Math.multiply 2
+add
+pop local 4
 push constant 0
-not
 call Screen.setColor 1
 pop temp 0
-push local 2
 push local 3
-push local 2
-push argument 4
+push constant 1
+add
+push local 4
+push constant 1
+add
+push local 3
+push local 0
 add
 push constant 1
 sub
-push local 3
-push argument 4
+push local 4
+push local 0
 add
 push constant 1
 sub
 call Screen.drawRectangle 4
 pop temp 0
 label IF_FALSE0
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP1
+label WHILE_END1
 push local 1
 push constant 1
 add
 pop local 1
-goto WHILE_EXP1
-label WHILE_END1
-push local 0
-push constant 1
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Texture.drawPlayerTexture 2
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push argument 2
+add
+push argument 1
+push argument 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push constant 3
+add
+push argument 1
+push constant 3
+add
+push argument 0
+push argument 2
+add
+push constant 3
+sub
+push argument 1
+push argument 3
+add
+push constant 3
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 2
+push constant 2
+call Math.divide 2
 add
 pop local 0
+push argument 1
+push argument 3
+push constant 2
+call Math.divide 2
+add
+pop local 1
+push local 0
+push constant 2
+sub
+push local 1
+push constant 2
+sub
+push local 0
+push constant 2
+add
+push local 1
+push constant 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Texture.drawPlayerDeadTexture 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push argument 2
+add
+push argument 1
+push argument 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push constant 2
+add
+push argument 1
+push constant 2
+add
+push argument 0
+push argument 2
+add
+push constant 2
+sub
+push argument 1
+push argument 3
+add
+push constant 2
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push constant 2
+add
+push argument 1
+push constant 2
+add
+push argument 0
+push argument 2
+add
+push constant 2
+sub
+push argument 1
+push argument 3
+add
+push constant 2
+sub
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push argument 2
+add
+push constant 2
+sub
+push argument 1
+push constant 2
+add
+push argument 0
+push constant 2
+add
+push argument 1
+push argument 3
+add
+push constant 2
+sub
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Texture.drawJumpPad 1
+push argument 0
+push argument 2
+push constant 2
+call Math.divide 2
+add
+pop local 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push argument 2
+add
+push argument 1
+push argument 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push constant 2
+add
+push argument 1
+push constant 2
+add
+push argument 0
+push argument 2
+add
+push constant 2
+sub
+push argument 1
+push argument 3
+add
+push constant 2
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push constant 2
+add
+push argument 1
+push argument 3
+add
+push constant 2
+sub
+push local 0
+push argument 1
+push constant 2
+add
+call Screen.drawLine 4
+pop temp 0
+push local 0
+push argument 1
+push constant 2
+add
+push argument 0
+push argument 2
+add
+push constant 2
+sub
+push argument 1
+push argument 3
+add
+push constant 2
+sub
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Texture.drawFinish 10
+push constant 4
+pop local 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push local 0
+add
+push argument 1
+push argument 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 2
+push local 0
+sub
+pop local 1
+push argument 3
+push constant 3
+call Math.divide 2
+pop local 2
+push constant 4
+pop local 3
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push local 0
+add
+push argument 1
+push argument 0
+push argument 2
+add
+push argument 1
+push local 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 2
+push local 3
+call Math.divide 2
+pop local 8
+push local 1
+push local 3
+call Math.divide 2
+pop local 9
+push constant 0
+pop local 4
+label WHILE_EXP0
+push local 4
+push local 8
+lt
+not
+if-goto WHILE_END0
+push constant 0
+pop local 5
+label WHILE_EXP1
+push local 5
+push local 9
+lt
+not
+if-goto WHILE_END1
+push local 4
+push local 5
+add
+push constant 1
+and
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 0
+push local 0
+add
+push local 5
+push local 3
+call Math.multiply 2
+add
+pop local 6
+push argument 1
+push local 4
+push local 3
+call Math.multiply 2
+add
+pop local 7
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push local 6
+push local 7
+push local 6
+push local 3
+add
+push local 7
+push local 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push local 5
+push constant 1
+add
+pop local 5
+goto WHILE_EXP1
+label WHILE_END1
+push local 4
+push constant 1
+add
+pop local 4
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0

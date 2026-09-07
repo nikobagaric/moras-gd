@@ -1,5 +1,5 @@
-function Block.new 0
-push constant 4
+function JumpPad.new 0
+push constant 5
 call Memory.alloc 1
 pop pointer 0
 push argument 0
@@ -10,9 +10,12 @@ push argument 2
 pop this 2
 push argument 3
 pop this 3
+push constant 0
+not
+pop this 4
 push pointer 0
 return
-function Block.draw 1
+function JumpPad.draw 1
 push argument 0
 pop pointer 0
 push this 0
@@ -36,12 +39,12 @@ push local 0
 push this 1
 push this 2
 push this 3
-call Texture.drawBrick 4
+call Texture.drawJumpPad 4
 pop temp 0
 label IF_FALSE0
 push constant 0
 return
-function Block.collides 5
+function JumpPad.collides 5
 push argument 0
 pop pointer 0
 push this 0
@@ -84,29 +87,37 @@ lt
 and
 and
 return
-function Block.isLandingOn 0
+function JumpPad.trigger 1
 push argument 0
 pop pointer 0
-push argument 1
-call Player.getPrevY 1
-push argument 1
-call Player.getHeight 1
-add
-push this 1
-gt
-not
-push argument 1
-call Player.getYVel 1
 push constant 0
-gt
-and
+pop local 0
+push pointer 0
+push argument 1
+push argument 2
+call JumpPad.collides 3
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 4
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+pop this 4
+push constant 0
+not
+pop local 0
+label IF_FALSE1
+goto IF_END0
+label IF_FALSE0
+push constant 0
+not
+pop this 4
+label IF_END0
+push local 0
 return
-function Block.getTop 0
-push argument 0
-pop pointer 0
-push this 1
-return
-function Block.dispose 0
+function JumpPad.dispose 0
 push argument 0
 pop pointer 0
 push pointer 0

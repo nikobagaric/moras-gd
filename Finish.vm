@@ -1,4 +1,4 @@
-function Block.new 0
+function Finish.new 0
 push constant 4
 call Memory.alloc 1
 pop pointer 0
@@ -12,7 +12,7 @@ push argument 3
 pop this 3
 push pointer 0
 return
-function Block.draw 1
+function Finish.draw 1
 push argument 0
 pop pointer 0
 push this 0
@@ -36,12 +36,12 @@ push local 0
 push this 1
 push this 2
 push this 3
-call Texture.drawBrick 4
+call Texture.drawFinish 4
 pop temp 0
 label IF_FALSE0
 push constant 0
 return
-function Block.collides 5
+function Finish.collides 5
 push argument 0
 pop pointer 0
 push this 0
@@ -84,29 +84,7 @@ lt
 and
 and
 return
-function Block.isLandingOn 0
-push argument 0
-pop pointer 0
-push argument 1
-call Player.getPrevY 1
-push argument 1
-call Player.getHeight 1
-add
-push this 1
-gt
-not
-push argument 1
-call Player.getYVel 1
-push constant 0
-gt
-and
-return
-function Block.getTop 0
-push argument 0
-pop pointer 0
-push this 1
-return
-function Block.dispose 0
+function Finish.dispose 0
 push argument 0
 pop pointer 0
 push pointer 0
